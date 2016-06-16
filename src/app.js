@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 const App = React.createClass({
   render: function() {
-    return (<div>Text text text</div>);
+    return (<div>This is not...a mothhafuckin test that we runnin boi!!</div>);
   }
 });
 
