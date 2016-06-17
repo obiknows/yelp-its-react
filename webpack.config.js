@@ -23,5 +23,11 @@ var config = getConfig({
   clearBeforeBuild: true
 });
 
+config.postcss = [].concat([
+  require('precss')({}),
+  require('autoprefixer')({}),
+  require('cssnano')({}),
+])
+
 // Export the config object
 module.exports = config;
