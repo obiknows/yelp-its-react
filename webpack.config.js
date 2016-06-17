@@ -23,11 +23,28 @@ var config = getConfig({
   clearBeforeBuild: true
 });
 
+console.log(config.module.loaders);
+// break;
+
+// PostCSS config
 config.postcss = [].concat([
   require('precss')({}),
   require('autoprefixer')({}),
-  require('cssnano')({}),
+  require('cssnano')({})
 ])
+
+// // CSS Naming config
+// const cssModulesNames = `${isDev ? '[path][name]__[local]__' : ''}[hash:base64:5]`;
+// const matchCssLoaders = /(^|!)(css-loader)($|!)/;
+//
+// const findLoader = (loaders, match) => {
+//   const found = loaders.filter(l => l &&
+//     l.loader && l.loader.match(match));
+//   return found ? found[0] : null;
+// }
+//
+// const cssloader = findLoader(config.module.loaders, matchCssLoaders);
+//
 
 // Export the config object
 module.exports = config;
