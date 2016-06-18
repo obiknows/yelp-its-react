@@ -23,6 +23,16 @@ var config = getConfig({
   clearBeforeBuild: true
 });
 
+// Setup config routes
+config.resolve.root = [src, modules]
+config.resolve.alias = {
+  'css': join(src, 'styles'),
+  'containers': join(src, 'containers'),
+  'components': join(src, 'components'),
+  'utils': join(src, 'utils'),
+}
+
+
 // Config Environment
 const dotenv     = require('dotenv');
 const dotEnvVars = dotenv.config();
