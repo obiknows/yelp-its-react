@@ -1,9 +1,10 @@
-const webpack = require('webpack');
-const fs      = require('fs');
-const path    = require('path');
-      join    = path.join,
-      resolve = path.resolve;
-const getConfig = require('hjs-webpack');
+const webpack    = require('webpack');
+const fs         = require('fs');
+const path       = require('path');
+      join       = path.join,
+      resolve    = path.resolve;
+const getConfig  = require('hjs-webpack');
+
 
 // Path Variables
 const root     = resolve(__dirname);
@@ -15,13 +16,37 @@ const dist     = resolve(root, 'dist');
 const NODE_ENV = process.env.NODE_ENV;
 const isDev    = NODE_ENV === 'development';
 
-
 var config = getConfig({
   isDev: isDev,
   in: join(__dirname, 'src/app.js'),  // app entry point
   out: join(__dirname, 'dist'),       // output folder to build to
   clearBeforeBuild: true
 });
+
+// Config Environment
+const dotenv     = require('dotenv');
+const dotEnvVars = dotenv.config();
+const environmentEnv = dotenv.config({
+  path: join(root, 'config', `${NODE_ENV}.config.js`),
+  silent: true,
+});
+
+const envVariables = Object.assign({}, dotEnvVars, environmentEnv);
+
+const defines =
+  Object.keys(envVariables)
+  .reduce((memo, keys) => {
+    const val = JSON.stringify(envVariables[key]);
+    memo[`__${key.toUpperCase()}__`] = val;
+    return memo;
+  },{
+    __NODE_ENV__: JSON.stringify(NODE_ENV)
+  });
+
+config.plugins = [
+  new webpack.DefinePlugin(defines)
+].concat(config.plugins);
+
 
 console.log(config.module.loaders);
 // break;
